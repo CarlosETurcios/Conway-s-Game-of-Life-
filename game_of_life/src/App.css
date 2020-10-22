@@ -35,8 +35,12 @@ p {
   font-size: calc(30px + 3vmin);
   color: wheat;
 }
+.footer {
+  height: 10rem;
+}
 
 
 
 
- /* main page menu  #282c34 */
+
+
