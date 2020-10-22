@@ -29,7 +29,7 @@ function App() {
       </div>
       <h1>The Simulation</h1>
       <div className='Grid'>
-      <CellGrid/>
+       <CellGrid/>  
       </div>
       <footer className="footer">
         
