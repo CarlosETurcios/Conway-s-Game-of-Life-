@@ -38,7 +38,11 @@ p {
 .footer {
   height: 10rem;
 }
-
+.grid {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 
 

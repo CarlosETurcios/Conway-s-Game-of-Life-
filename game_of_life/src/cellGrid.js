@@ -3,90 +3,170 @@ import './game_of_life.css'
 
 
 
-const cellSize = 20;
-const cWidth = 800;
-const cHeight = 600
+class CellGrid extends React.Component {
 
-class Cell extends React.Component {
-    render() {
-        const { x, y } = this.props;
-        return (
-            <div className="Cell" style={{        left: `${cellSize * x + 1}px`,        top: `${cellSize * y + 1}px`,        width: `${cellSize - 1}px`,        height: `${cellSize - 1}px`,      }}/>
-            );
+    static field = {
+        columnsAmount: 25,
+        rowsAmount: 25,
+    };
+    static cellState = {
+        ALIVE: true,
+        DEAD: false,
+    };
 
-    }}
+    
+    constructor(props) {
+        super(props);
 
+        this.state = {
+            cells: this.initializeCells(),
+            isGameOn: false,
+        }
+        setInterval(()=> this.live(), 200)
+    }
 
+    initializeCells() {
+        let cells = [];
 
+        for (let columnIndex = 0; columnIndex < CellGrid.field.columnsAmount; columnIndex++) {
+            cells[columnIndex] = [];
+            for (let rowIndex = 0; rowIndex < CellGrid.field.rowsAmount; rowIndex++) {
+                cells[columnIndex][rowIndex] = CellGrid.cellState.DEAD;
+            }
+        }
 
- class CellGrid extends React.Component {
-     constructor() {
-         super();
-         this.rows = cHeight / cellSize;
-         this.cols = cWidth / cellSize;
-         this.board = this.makeEmptyBoard();
+        return cells;
+    }
+
+    live() {
+        if (!this.state.isGameOn){
+            return;
+        }
+         
+        const newCells = [];  
+
+        for (let columnIndex = 0; columnIndex < CellGrid.field.columnsAmount; columnIndex++) {
+            newCells[columnIndex] = [];
+            for (let rowIndex = 0; rowIndex < CellGrid.field.rowsAmount; rowIndex++) {
+                newCells[columnIndex][rowIndex] = this.programNewCellState(columnIndex, rowIndex)
+            }
+            
+        }
+        this.setState({cells: newCells})
+    }
+
+    programNewCellState(columnIndex, rowIndex) {
+        const liveNeighbour = this.programAliveNeighbourAmount(columnIndex,rowIndex)
+        const currentCellState = this.state.cells[columnIndex][rowIndex];
         
-     }
-     state = { cells: [], }
-    
-     makeEmptyBoard() {
-         let board = [];
-         for (let y = 0; y < this.rows; y++) {
-             board[y] = [];
-             for (let x = 0; x < this.cols; x++) {
-                 board[y][x] = false;
-             }
-         }
-         return board;
-
-     }
-     makeCells() {
-         let cells = [];
-         for (let y = 0; y < this.rows; y++) {
-             for (let x = 0; x < this.cols; x++) {
-                 if (this.board[y][x]) {
-                     cells.push({x,y})
-                 }
-             }
-             return cells
-         }
-     }
-     getElementOffset() {    
-         const rect = this.boardRef.getBoundingClientRect();    
-        const doc = document.documentElement;
-         return { x: (rect.left + window.pageXOffset) - doc.clientLeft,
-        y: (rect.top + window.pageYOffset) - doc.clientTop,
-        };
+        if (currentCellState === CellGrid.cellState.ALIVE) {
+            if (liveNeighbour < 2) {
+                return CellGrid.cellState.DEAD;
+            } else if (liveNeighbour === 2 || liveNeighbour === 3) {
+                return CellGrid.cellState.ALIVE;
+            } else if (liveNeighbour > 3) {
+                return CellGrid.cellState.DEAD;
+            }
+           
+        } else {
+            if (liveNeighbour ===3) {
+                return CellGrid.cellState.ALIVE;
+            }
         }
-     
-     handleClick = (event) => {    
-        const elemOffset = this.getElementOffset();    
-        const offsetX = event.clientX - elemOffset.x;    
-        const offsetY = event.clientY - elemOffset.y;        
-        const x = Math.floor(offsetX / cellSize);    
-        const y = Math.floor(offsetY / cellSize);
-        if (x >= 0 && x <= this.cols && y >= 0 && y <= this.rows) 
-        {      this.board[y][x] = !this.board[y][x];    }
-         this.setState({cells: this.makeCells()});
-        }
-    
+        return CellGrid.cellState.DEAD;
 
-    
-     render() {
-         const { cells } = this.state;
-     return (
-         <div>
-           <div className="grid-cells" style={{width:cWidth, height:cHeight, backgroundSize:`${cellSize}px ${cellSize}px`}} onClick={this.handleClick} ref={(n) => {this.boardRef = n;}}>
-               {cells.map(cell => ( <Cell x={cell.x} y={cell.y} key={`${cell.x},${cell.y}`}/>))}
+    }
+
+    programAliveNeighbourAmount(columnIndex, rowIndex) {
+
+        let liveNeighbour = 0;
+
+        const neightbourOffset = [
+            [-1, 0], // left
+            [-1, 1], // top left
+            [0, 1], // top
+            [1, 1], // top right
+            [1, 0], // right
+            [1, -1], // bottom right
+            [0, -1], // bottom
+            [-1, -1], // bottom left
+        ];
+
+        for (const neighbourKey in neightbourOffset) {
+            const [xOffset, yOffset] = neightbourOffset[neighbourKey];
+
+            let newColumnOffset = columnIndex + xOffset;
+            let newRowOffset = rowIndex + yOffset;
+
+            if (newColumnOffset < 0 || newColumnOffset > CellGrid.field.columnsAmount - 1) {
+                continue;
+            }
+            if (newRowOffset < 0 || newRowOffset > CellGrid.field.rowsAmount - 1) {
+                continue;
+            }
+            const neighbourState = this.state.cells[newColumnOffset][newRowOffset];
+            if (neighbourState === CellGrid.cellState.ALIVE) {
+                 liveNeighbour++;
+             }
+        }
+
+        return liveNeighbour;
+
+    }
+
+    toggleCell(columnIndex, rowIndex) {
+        const newCellState = this.state.cells;
+
+        newCellState[columnIndex][rowIndex] = !newCellState[columnIndex][rowIndex];
+
+       this.setState( {state: newCellState})
+    }
+
+    togglegameOn() {
+        this.setState({isGameOn: !this.state.isGameOn})
+    }
+
+   
+
+   renderCells(){
+       return (
+           <div className="cells">
+               {this.state.cells.map((rows, columnIndex) => {
+                   return this.renderColumn(rows, columnIndex)
+               })}
            </div>
+       )
+   }
+renderColumn(rows, columnIndex) {
+    return (
+        <div className="col" key={`column_${columnIndex}`}>
+            {rows.map((cellState,rowIndex) => {
+                const cellModifier = cellState === CellGrid.cellState.DEAD ? 'dead': 'alive'
+                return <div className={`cell cell--${cellModifier}` }key={`cell_${columnIndex} ${rowIndex}`} onClick={() => this.toggleCell(columnIndex, rowIndex)}/>
+            })}
+        </div>
+    )
+}
+renderStartButton() {
+    const buttonLabel = this.state.isGameOn ? 'Stop': 'Start';
+    return (
+    <button className="start-button" onClick={()=> this.togglegameOn()}>{buttonLabel}</button>
+    )
+}
+render() {
+    return (
+        <div className="grid-cells">
+        <div className="grid-only">
+         {this.renderCells()}
          </div>
-     );
-     }
+        <div className="button-div">
+            {this.renderStartButton()}
+        </div>
+            
+        </div>
+    )
 }
 
- 
+}
 
- export default CellGrid 
-
-
-
+export default CellGrid;
