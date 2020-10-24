@@ -1,0 +1,36 @@
+ .grid-cells {  
+      display: flex;
+      flex-direction: column;
+     
+} 
+.cells {
+    display: flex;
+
+}
+.column {
+    display: flex;
+    flex-direction: column;
+
+}
+.cell {
+    width: 25px;
+    height: 25px;
+    background-color: black;
+    border: 1px solid wheat;
+    
+        }
+.cell--alive {
+background-color: wheat;
+}
+.cell--dead {
+background-color: black;
+
+}
+.start-button {
+    
+    background-color: wheat;
+}
+.grid-only {
+    display: flex;
+    justify-content: center;
+}

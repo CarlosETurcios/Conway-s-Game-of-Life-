@@ -1,0 +1,50 @@
+.App {
+  text-align: center;
+  background-color: #282c34;
+  
+}
+
+
+* {
+  background-color: #282c34;
+  }
+h1 {
+ 
+  color: wheat;
+}
+.top {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  
+} 
+p {
+ 
+  
+  color: wheat;
+ 
+}
+.App-header {
+  background-color:#7b99be;
+  min-height: 11vh;
+ 
+  font-size: calc(30px + 3vmin);
+  color: wheat;
+}
+.footer {
+  height: 10rem;
+}
+.grid {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+
+
