@@ -159,8 +159,11 @@ class CellGrid extends React.Component {
 
    toggleTwintyFive() {
        console.log("hello for 25")
-    //    this.columnsAmount = 25
-    //    this.rowsAmount = 25
+       CellGrid.field = {
+           columnsAmount: 25,
+           rowsAmount:25
+       }
+       this.setState({cells: this.initializeCells()})
    }
 
    toggleFifty() {
@@ -169,7 +172,7 @@ class CellGrid extends React.Component {
           columnsAmount:50,
           rowsAmount:50
       }
-
+      this.setState({cells: this.initializeCells()})
        
      
      }
@@ -242,13 +245,13 @@ renderRandomButton() {
 
 render25button() {
     return(
-   <button className="25button" onClick={() => this.toggleTwintyFive()}>25X25</button>
+   <button className="t25button" onClick={() => this.toggleTwintyFive()}>25X25</button>
     )
 }
 
 render50button() {
     return (
-    <button className="50button" onClick={() => this.toggleFifty()}>50X50</button>
+    <button className="t50button" onClick={() => this.toggleFifty()}>50X50</button>
     )
 }
 render() {
