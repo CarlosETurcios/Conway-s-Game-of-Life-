@@ -48,3 +48,11 @@ In computability theory, a system of data-manipulation rules (such as a computer
 # what is double buffing ?
 Double buffering is a term used to describe a device that has two buffers. The usage of multiple buffers increases the overall throughput of a device and helps prevents bottlenecks. For example, with graphics, double buffering can show one image or frame while a separate frame is being buffered to be shown next. This method makes animations and games look more realistic than the same done in a single buffer mode.
 
+# features 
+- Add an option that creates a random cell configuration that users can run
+
+
+- Allow users to specify the speed of the simulation
+
+- Allow users to change the dimension of the grid being displayed
+

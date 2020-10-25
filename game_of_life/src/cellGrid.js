@@ -5,7 +5,7 @@ import './game_of_life.css'
 
 class CellGrid extends React.Component {
 
-    static field = {
+      static field = {
         columnsAmount: 25,
         rowsAmount: 25,
     };
@@ -17,13 +17,18 @@ class CellGrid extends React.Component {
     
     constructor(props) {
         super(props);
-
+        
         this.state = {
             cells: this.initializeCells(),
             isGameOn: false,
+            Generations: 0,
+            size: this.field
+            
         }
-        setInterval(()=> this.live(), 200)
+         this.speed = setInterval(()=> this.live(), 200)
     }
+
+    
 
     initializeCells() {
         let cells = [];
@@ -52,7 +57,8 @@ class CellGrid extends React.Component {
             }
             
         }
-        this.setState({cells: newCells})
+        this.setState({cells: newCells,
+            Generations: this.state.Generations + 1})
     }
 
     programNewCellState(columnIndex, rowIndex) {
@@ -69,11 +75,13 @@ class CellGrid extends React.Component {
             }
            
         } else {
-            if (liveNeighbour ===3) {
+            if (liveNeighbour === 3) {
                 return CellGrid.cellState.ALIVE;
             }
+            
         }
         return CellGrid.cellState.DEAD;
+      
 
     }
 
@@ -109,7 +117,7 @@ class CellGrid extends React.Component {
                  liveNeighbour++;
              }
         }
-
+          
         return liveNeighbour;
 
     }
@@ -124,9 +132,61 @@ class CellGrid extends React.Component {
 
     togglegameOn() {
         this.setState({isGameOn: !this.state.isGameOn})
+        
     }
 
+   toggleClear() {
+   this.setState({isGameOn: false, cells: this.initializeCells() , Generations: 0 })
+   }
+
+   toggleSlow() {
+    console.log("this is from slow")
+    clearInterval(this.speed)
+    this.speed = setInterval(() => this.live(), 1000)
    
+}
+   toggleFast() {
+      clearInterval(this.speed)
+       
+    this.speed = setInterval(() => this.live(), 50)
+
+   }
+
+   toggleDefault() {
+       clearInterval(this.speed)
+       this.speed = setInterval(() => this.live(), 200)
+   }
+
+   toggleTwintyFive() {
+       console.log("hello for 25")
+    //    this.columnsAmount = 25
+    //    this.rowsAmount = 25
+   }
+
+   toggleFifty() {
+       console.log("hello from 50")
+      CellGrid.field = {
+          columnsAmount:50,
+          rowsAmount:50
+      }
+
+       
+     
+     }
+  
+   seedRandom() {
+     let gridCopy = this.initializeCells()  
+     for (let rowIndex = 0; rowIndex < CellGrid.field.rowsAmount; rowIndex++) {
+         for (let columnIndex = 0; columnIndex < CellGrid.field.columnsAmount; columnIndex++) {
+             if (Math.floor(Math.random() * 4) === 1) {
+                 gridCopy[rowIndex][columnIndex] = true
+             }
+         }
+     }
+     this.setState({
+         cells: gridCopy
+     })
+   }
 
    renderCells(){
        return (
@@ -153,14 +213,65 @@ renderStartButton() {
     <button className="start-button" onClick={()=> this.togglegameOn()}>{buttonLabel}</button>
     )
 }
+renderClearButton() {
+return (
+    <button className="clear-button" onClick={()=> this.toggleClear()}>Clear</button>
+)
+}
+renderSlowButton() {
+    return (
+        <button className="slow-button" onClick={() => this.toggleSlow()} >Slow</button>
+    )
+}
+renderDefaultSpeedButton() {
+ return (
+     <button className="default-button" onClick={() => this.toggleDefault()}>Default Speed</button>
+ )
+}
+renderFastButton() {
+    return (
+        <button className="fast-button" onClick={() => this.toggleFast()}>Fast</button>
+
+    )
+}
+renderRandomButton() {
+    return(
+        <button className="random-button" onClick={() => this.seedRandom()}>Random</button>
+    )
+}
+
+render25button() {
+    return(
+   <button className="25button" onClick={() => this.toggleTwintyFive()}>25X25</button>
+    )
+}
+
+render50button() {
+    return (
+    <button className="50button" onClick={() => this.toggleFifty()}>50X50</button>
+    )
+}
 render() {
     return (
         <div className="grid-cells">
+            <div>
+                <h1>
+                    Generations: {this.state.Generations}
+                </h1>
+            </div>
         <div className="grid-only">
          {this.renderCells()}
          </div>
         <div className="button-div">
             {this.renderStartButton()}
+            {this.renderClearButton()}
+            {this.renderSlowButton()}
+            {this.renderFastButton()}
+            {this.renderDefaultSpeedButton()}
+            {this.renderRandomButton()}
+            {this.render25button()}
+            {this.render50button()}
+
         </div>
             
         </div>

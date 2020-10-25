@@ -34,3 +34,19 @@ background-color: black;
     display: flex;
     justify-content: center;
 }
+.clear-button {
+    background-color: wheat;
+    
+}
+.default-button {
+    background-color: wheat;
+}
+.fast-button {
+    background-color: wheat;
+}
+.slow-button {
+    background-color: wheat;
+}
+.random-button {
+    background-color: wheat;
+}
