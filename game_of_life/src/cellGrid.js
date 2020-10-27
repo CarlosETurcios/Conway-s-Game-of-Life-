@@ -163,7 +163,7 @@ class CellGrid extends React.Component {
            columnsAmount: 25,
            rowsAmount:25
        }
-       this.setState({cells: this.initializeCells()})
+       this.setState({isGameOn: false,cells: this.initializeCells(), Generations: 0})
    }
 
    toggleFifty() {
@@ -172,7 +172,7 @@ class CellGrid extends React.Component {
           columnsAmount:50,
           rowsAmount:50
       }
-      this.setState({cells: this.initializeCells()})
+      this.setState({isGameOn: false ,cells: this.initializeCells(), Generations: 0})
        
      
      }

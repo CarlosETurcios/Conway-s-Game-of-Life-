@@ -24,8 +24,7 @@ function App() {
       <div className="top">
       <h1>About this Game</h1>
       <p>
-        The Game of Life is not your typical computer game. It is a 'cellular automaton', and was invented by Cambridge mathematician John Conway.
-         This game became widely known when it was mentioned in an article published by Scientific American in 1970. It consists of a collection of cells which, based on a few mathematical rules, can live, die or multiply. Depending on the initial conditions, the cells form various patterns throughout the course of the game.
+       The Game of Life is a zero player game devised by mathematician John Horton Conway in 1970. The game is determined by the initail state, requiring no further input.
       </p>
       <p>The universe of game of life is an infinite two-dimensional orthogonal grid of square cells,
 there are two possible states live or dead 
