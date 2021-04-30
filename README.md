@@ -15,4 +15,17 @@ This is a classic computer science project from the 70"s for a cellular automato
 -  Select board size.
 -  Add cells or select random.
 -  Click start run the simulation.
--  Board size and speed of cells can also be adjusted 
+-  Board size and speed of cells can also be adjusted. 
+
+
+## Tech/Framework
+
+- HTML
+- CSS
+- React
+- JavaScript 
+
+
+
+
+MIT © Carlos Turcios
