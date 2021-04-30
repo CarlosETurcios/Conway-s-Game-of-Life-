@@ -1,5 +1,7 @@
 # Conway-s-Game-of-Life-
-This is a classic computer science project from the 70"s for a cellular automaton 
+This is a classic computer science project from the 70"s for a cellular automaton. 
+The Game of Life is a zero-player game devised by mathematician John Horton Conway in 1970. The game
+is determined by the initial state, requiring no further input.
 
 
 ## Game Rules 
